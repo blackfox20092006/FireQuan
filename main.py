@@ -116,27 +116,27 @@ def main():
             gc.collect()
 
 def test_datasets(dataset_configs = [
-        # {'name': 'Imagenette', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-        # {'name': 'GTSRB', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-        # {'name': 'STL10', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-        # {'name': 'EuroSAT', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-        # {'name': 'ISIC2019', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-        # {'name': 'HAM10000', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-        # {'name': 'Caltech101', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-        # {'name': 'Fruit360', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-        # {'name': 'NEUSurfaceDefect', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-        # {'name': 'PatchCamelyon', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
+                                                                                            
+                                                                                       
+                                                                                       
+                                                                                         
+                                                                                          
+                                                                                          
+                                                                                            
+                                                                                          
+                                                                                                  
+                                                                                               
         {'name': 'EMNIST_ByClass', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': True},
-        # {'name': 'EMNIST_ByMerge', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': True},
-        # {'name': 'EMNIST_Balanced', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': True},
-        # {'name': 'KMNIST', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': True},
-        # {'name': 'QMNIST', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': True},
-        # {'name': 'USPS', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': True},
-        # {'name': 'SVHN', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-        # {'name': 'SEMEION', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': True},
-        # {'name': 'FER2013', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': True},
-        # {'name': 'CelebA', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-        # {'name': 'Food101', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
+                                                                                               
+                                                                                                
+                                                                                       
+                                                                                       
+                                                                                     
+                                                                                      
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                         
     ]):
     
     from src.dataloaders.dataloaders import load_data
@@ -194,4 +194,4 @@ def test_datasets(dataset_configs = [
 
 if __name__ == "__main__":
     main()
-    # test_datasets()
+                     

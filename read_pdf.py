@@ -5,7 +5,7 @@ def read_pdf(file_path):
     try:
         doc = fitz.open(file_path)
         out = ""
-        for i in range(min(5, doc.page_count)):  # read first 5 pages for summary
+        for i in range(min(5, doc.page_count)):                                  
             out += f"--- Page {i+1} ---\n"
             out += doc[i].get_text()
         print(out)

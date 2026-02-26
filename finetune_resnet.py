@@ -9,14 +9,14 @@ from tqdm.auto import tqdm
 def finetune_resnet(dataset_name, n_classes, num_epochs=20, batch_size=64):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     
-    # Load pretrained ResNet18
+                              
     model = models.resnet18(pretrained=True)
     num_ftrs = model.fc.in_features
-    # Replace the FC layer
+                          
     model.fc = nn.Linear(num_ftrs, n_classes)
     model = model.to(device)
 
-    # Prepare config dict for the unified dataloader
+                                                    
     config = {'name': dataset_name, 'is_grayscale': False}
     
     train_loader, test_loader = load_data(batch_size, config)
@@ -52,7 +52,7 @@ def finetune_resnet(dataset_name, n_classes, num_epochs=20, batch_size=64):
             running_loss += loss.item()
             pbar.set_postfix({'loss': f"{loss.item():.4f}"})
             
-        # Validation
+                    
         model.eval()
         correct = 0
         total = 0
@@ -67,7 +67,7 @@ def finetune_resnet(dataset_name, n_classes, num_epochs=20, batch_size=64):
         val_acc = correct / total
         print(f"Epoch {epoch+1} Val Acc: {val_acc:.4f}")
         
-        # Save best model
+                         
         if val_acc > best_acc:
             best_acc = val_acc
             torch.save(model.state_dict(), save_path)
@@ -76,12 +76,12 @@ def finetune_resnet(dataset_name, n_classes, num_epochs=20, batch_size=64):
     print(f"Finished {dataset_name}. Best Val Acc: {best_acc:.4f}\n")
 
 if __name__ == '__main__':
-    # Add datasets that you want to fine-tune to act as your feature extractors
+                                                                               
     datasets = [
-        # Example format based on main.py definitions
-        # {'name': 'belgiumts', 'n_classes': 62},
-        # {'name': 'eurosat', 'n_classes': 10},
-        # etc...
+                                                     
+                                                 
+                                               
+                
     ]
     for cfg in datasets:
         finetune_resnet(cfg['name'], cfg['n_classes'])

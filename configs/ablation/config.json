@@ -1,0 +1,17 @@
+{
+    "N_QUBITS": 10,
+    "K_LAYERS": 4,
+    "CLASSICAL_OUTPUT_DIM": 512,
+    "BATCH_SIZE": 64,
+    "LEARNING_RATE": 0.0002,
+    "EVAL_EVERY_N_EPOCHS": 10,
+    "WARMUP_EPOCHS": 1,
+    "MIN_LEARNING_RATE": 1e-06,
+    "runs": [
+        {
+            "name": "PCAM",
+            "n_epochs": 50,
+            "ablation_mode": "no_cnn"
+        }
+    ]
+}
