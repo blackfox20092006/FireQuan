@@ -34,6 +34,7 @@
 
 [**Abstract**](#Abstract) •
 [**Core Contributions**](#core-contributions) •
+[**Repository Structure**](#repository-structure--components) •
 [**Install**](#install) •
 [**Usage**](#usage) •
 [**Citation**](#citation) •
@@ -55,6 +56,23 @@ We design **Fire512 Head**, a compact convolutional backbone based on SqueezeNet
 
 ### 2. Patch-based Encoding Strategy
 To effectively address qubit and NISQ hardware constraints, we propose a novel **patch-based encoding strategy**. It uniquely integrates amplitude and angle encoding principles with data re-uploading, allowing for classical features to be mapped directly into quantum states exclusively using single-qubit rotation gates. By strictly bypassing two-qubit Controlled-NOT (CNOT) gates during the encoding phase, our method slashes physical circuit depth by over 99.60% versus established encoding schemas like FRQI/NEQR.
+
+---
+
+## Repository Structure & Components
+
+Our codebase is highly modular and organized to support configurable multi-domain experiments and independent benchmark tests. Below is an overview of the key directories:
+
+- `main.py`: The master script to initiate the standard training and evaluation pipeline across configurations defined in JSON files.
+- `ablation.py` & `ablation/`: The master script and encapsulated modules for running ablation studies (disabling CNN, Quantum layers, Patch Embedding, etc.) ensuring that ablation logic does not clutter the main execution pipeline.
+- `configs/`: Contains JSON files (`base/config.json`, `ablation/config.json`) to control paths, multi-domain dataset configurations, and hyperparameters (e.g., `IMG_SIZE`, `BATCH_SIZE`, `N_QUBITS`).
+- `src/`: 
+  - `dataloaders/`: Scripts to standardize reading, transforming, and batching various datasets via PyTorch `DataLoader`.
+  - `engines/`: Core pipelines for training (`train.py`) and evaluations (`eval.py`). Integrates JAX/Flax loops alongside PyTorch loaders.
+  - `models/`: Implementations of quantum observables, the hybrid quantum neural network logic (`qnn.py`), the SqueezeNet-based `Fire512` Head (`fire512head.py`), and the custom Patch Embedding.
+- `patch_embedding/`: 
+  - `infer_fire512.py`: A benchmarking utility calculating parameters, FLOPs, and runtime performance of `Fire512` versus traditional CNN backbones.
+  - `test_embedding.py`: A `qiskit`-based script to transpile and measure the physical circuit metrics (Depth, CNOT count, Memory) of our Patch Embedding against other prevalent encoding schemas (FRQI, NEQR, Phase, IQP, etc.).
 
 ---
 
