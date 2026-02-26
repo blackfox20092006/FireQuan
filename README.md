@@ -10,18 +10,19 @@
 > Please press ⭐ button and/or cite papers if you feel helpful.
 
 <p align="center">
-<img src="https://img.shields.io/github/stars/xxx/FireQuan">
-<img src="https://img.shields.io/github/forks/xxx/FireQuan">
-<img src="https://img.shields.io/github/watchers/xxx/FireQuan">
+<img src="https://img.shields.io/github/stars/ducdnm2/FireQuan">
+<img src="https://img.shields.io/github/forks/ducdnm2/FireQuan">
+<img src="https://img.shields.io/github/watchers/ducdnm2/FireQuan">
 </p>
 
 <div align="center">
 
-[![python](https://img.shields.io/badge/-Python_3.11.11-blue?logo=python&logoColor=white)](https://www.python.org/downloads/)
+[![python](https://img.shields.io/badge/-Python_3.10-blue?logo=python&logoColor=white)](https://www.python.org/downloads/)
 [![pytorch](https://img.shields.io/badge/Torch_2.0.1-ee4c2c?logo=pytorch&logoColor=white)](https://pytorch.org/get-started/locally/)
 [![jax](https://img.shields.io/badge/JAX-0.4.x-purple?logo=jax&logoColor=white)](https://github.com/google/jax)
 [![pennylane](https://img.shields.io/badge/PennyLane-0.34.0-yellow?logo=PennyLane&logoColor=white)](https://pennylane.ai/)
 [![cuda](https://img.shields.io/badge/-CUDA_11.8-green?logo=nvidia&logoColor=white)](https://developer.nvidia.com/cuda-toolkit-archive)
+
 </div>
 
 <p align="center">
@@ -32,6 +33,7 @@
 <div align="center">
 
 [**Abstract**](#Abstract) •
+[**Core Contributions**](#core-contributions) •
 [**Install**](#install) •
 [**Usage**](#usage) •
 [**Citation**](#citation) •
@@ -40,33 +42,64 @@
 </div>
 
 ## Abstract
-> Quantum Machine Learning (QML) offers notable computational advantages; however, the limited qubit count and system noise inherent to the Noisy Intermediate-Scale Quantum (NISQ) era pose significant obstacles to processing real-world images and large, specialized datasets. To address these challenges, we introduce **FireQuan**, a hybrid quantum-classical architecture for multi-domain image classification. The framework centers on two contributions: (1) the **Fire512 Head**, a compact convolutional feature extractor that reduces the number of parameters by up to 98.90% and FLOPs by over 98.00% compared to ResNet50, while preserving network depth for learning complex features; and (2) a **patch-based encoding strategy** that combines amplitude and angle encoding principles with data re-uploading to load classical features into qubits using only single-qubit rotation gates, thereby eliminating Controlled-NOT (CNOT) gates during the encoding phase. This encoding reduces physical circuit depth by over 99.60% and the total gate count by over 97.00% relative to Flexible Representation of Quantum Images (FRQI) and Novel Enhanced Quantum Representation (NEQR) for equivalent-sized feature vectors. Empirical evaluation across 13 datasets spanning 5 domains.
+> Quantum Machine Learning (QML) offers notable computational advantages; however, the limited qubit count and system noise inherent to the Noisy Intermediate-Scale Quantum (NISQ) era pose significant obstacles to processing real-world images and large, specialized datasets. To address these challenges, we introduce **FireQuan**, a hybrid quantum-classical architecture for multi-domain image classification. The framework centers on two contributions: (1) the **Fire512 Head**, a compact convolutional feature extractor that reduces the number of parameters by up to 98.90% and FLOPs by over 98.00% compared to ResNet50, while preserving network depth for learning complex features; and (2) a **patch-based encoding strategy** that combines amplitude and angle encoding principles with data re-uploading to load classical features into qubits using only single-qubit rotation gates, thereby eliminating Controlled-NOT (CNOT) gates during the encoding phase. This encoding reduces physical circuit depth by over 99.60% and the total gate count by over 97.00% relative to Flexible Representation of Quantum Images (FRQI) and Novel Enhanced Quantum Representation (NEQR) for equivalent-sized feature vectors. Empirical evaluation across 13 datasets spanning 5 domains demonstrates that FireQuan performs competitively, achieving 95.74% on EuroSAT and 86.70% on PatchCamelyon (PCAM), while outperforming several Quantum Support Vector Machine (QSVM), Quantum Convolutional Neural Network (QCNN), and contemporary hybrid methods. FireQuan maintains a generalization gap below 10.00% even on datasets with high noise and class imbalance, highlighting its practical value for current quantum systems.
 > 
-> Index Terms: Quantum Machine Learning, Hybrid Quantum-Classical Architecture, Image Classification, Feature Encoding, Convolutions.
+> *Index Terms: Quantum Machine Learning, Hybrid Quantum-Classical Model, Multi-Domain Image Classification, Patch Embedding, Lightweight Architecture.*
+
+---
+
+## Core Contributions
+
+### 1. Fire512 Head
+We design **Fire512 Head**, a compact convolutional backbone based on SqueezeNet. It preserves the necessary network depth required for complex multi-domain feature characterizations while vastly reducing overhead. Compared to ResNet50, Fire512 Head decreases the number of parameters by up to 98.90% and computation (FLOPs) by over 98.00%, solving bottleneck convergence issues in data-scarce environments. 
+
+### 2. Patch-based Encoding Strategy
+To effectively address qubit and NISQ hardware constraints, we propose a novel **patch-based encoding strategy**. It uniquely integrates amplitude and angle encoding principles with data re-uploading, allowing for classical features to be mapped directly into quantum states exclusively using single-qubit rotation gates. By strictly bypassing two-qubit Controlled-NOT (CNOT) gates during the encoding phase, our method slashes physical circuit depth by over 99.60% versus established encoding schemas like FRQI/NEQR.
+
+---
 
 ## Install
+
 ### Clone this repository
 ```bash
-git clone https://github.com/xxx/FireQuan.git
+git clone https://github.com/ducdnm2/FireQuan.git
 cd FireQuan
 ```
 
-### Create Conda Environment and Install Requirements
-Navigate to the project directory and create a Conda environment:
+### Create a Python Virtual Environment
+We recommend creating an isolated Virtual Environment with `venv` before installing any dependencies, rather than using `conda`:
 ```bash
-conda create --name firequan python=3.10
-conda activate firequan
+python3 -m venv firequan_env
+source firequan_env/bin/activate  # On Windows, use: firequan_env\Scripts\activate
 ```
 
-### Install Dependencies
+### Setup Requirements and CUDA
+Because the pipeline uses GPU-accelerated JAX and PyTorch combined with PennyLane, please install dependencies as follows.
+
+**1. Install PyTorch with CUDA support**  
+Please refer to the [PyTorch Get Started](https://pytorch.org/get-started/locally/) guide. For example, to install Torch with CUDA 11.8 support on Windows:
+```bash
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+```
+
+**2. Install JAX with CUDA support**  
+Make sure JAX matches the GPU specification setup:
+```bash
+pip install "jax[cuda11_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+```
+
+**3. Install additional dependencies**  
+Install everything else from the `requirements.txt`:
 ```bash
 pip install -r requirements.txt
 ```
-*(Dependencies primarily include `jax`, `jaxlib` (CUDA version), `flax`, `optax`, `pennylane`, `torch`, `torchvision`, `scikit-learn`, `pandas`, `seaborn`)*
+
+---
 
 ## Usage
+
 ### Configuration
-This repository uses JSON configuration to handle hyperparameters and paths. You can modify them directly inside `configs/base/config.json`. By default, the hyperparameters are:
+This repository leverages clean JSON configurations for setting hyperparameters, datasets to run, and input sizes. You can tweak everything dynamically inside `configs/base/config.json`. The primary setup resembles:
 ```json
 {
     "hyperparameters": {
@@ -83,24 +116,27 @@ This repository uses JSON configuration to handle hyperparameters and paths. You
 }
 ```
 
-### Multi-Domain Image Classification
-The FireQuan architecture is evaluated on 13 different multi-domain datasets (e.g., EMNIST, EuroSAT, Fruit360, GTSRB, HAM10000, ISIC2019, PCAM, PlantVillage, Resisc45, SVHN, UCMerced, BelgiumTS, DeepWeeds).
+### Multi-Domain Image Classification Benchmark
+The FireQuan architecture is verified on 13 different multi-domain datasets (e.g., EMNIST, EuroSAT, Fruit360, GTSRB, HAM10000, ISIC2019, PCAM, PlantVillage, Resisc45, SVHN, UCMerced, BelgiumTS, DeepWeeds).
 
-To start the training pipeline on your configured datasets:
+To initiate the main training loop across configured datasets:
 ```bash
 python main.py
 ```
-> Experimental results and evaluation metrics will be updated simultaneously to the `output/` directory, saving logs and `.msgpack` checkpoint files for the best models.
+> Result logs and the best performing models (exported as `.msgpack` binaries) will be output to the `output/` directory as epochs progress metrics are validated.
 
 ### Ablation Studies
-Our repository also implements multiple ablation frameworks to validate the robustness of the FireQuan architecture components. 
-Configure the specific ablation experiments inside `configs/ablation/config.json` and start running:
+This repository additionally features independent module ablation loops (removing components like CNN backbones, Quantum Embedding layers, etc.) to examine and corroborate the effectuation of the individual components discussed in the manuscript.
+
+Modify `configs/ablation/config.json` per your requirements and execute:
 ```bash
 python ablation.py
 ```
 
+---
+
 ## Citation
-If you use this code or part of it, please cite our paper:
+If you use this code or concept (Fire512/Patch-based embed) in your research, please consider citing our original manuscript:
 ```bibtex
 @article{hoang2026firequan,
   title={FireQuan: A lightweight hybrid quantum-classical architecture with Patch Embedding for multi-domain image classification},

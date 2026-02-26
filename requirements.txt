@@ -1,0 +1,15 @@
+torch
+torchvision
+jax
+jaxlib
+flax
+optax
+pennylane
+scikit-learn
+pandas
+seaborn
+tqdm
+Pillow
+matplotlib
+setproctitle
+h5py

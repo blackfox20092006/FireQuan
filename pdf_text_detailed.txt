@@ -1,0 +1,170 @@
+--- Page 1 ---
+Highlights
+FireQuan: A lightweight hybrid quantum-classical architecture with
+Patch Embedding for multi-domain image classification
+Quang Nhan Hoang , Trung Thanh Pham , Nhut Minh Nguyen , Linh
+Le , Choong Seon Hong , Duc Ngoc Minh Dang
+• FireQuan: A lightweight hybrid quantum-classical model for multi-
+domain image classification.
+• Patch-based encoding eliminates CNOT gates, reducing circuit depth
+by 99.6% vs. FRQI/NEQR.
+• Fire512 Head reduces parameters by 98.9% and FLOPs by 98% com-
+pared to ResNet50.
+• Competitive accuracy on 13 datasets while being 85 times smaller than
+ResNet50.
+• Maintains a stable generalization gap below 10% on noisy and imbal-
+anced data.
+--- Page 2 ---
+FireQuan: A lightweight hybrid quantum-classical
+architecture with Patch Embedding for multi-domain
+image classification
+Quang Nhan Hoang
+a, Trung Thanh Pham
+b, Nhut Minh Nguyen
+a, Linh
+Le
+c, Choong Seon Hong
+d, Duc Ngoc Minh Dang
+a,∗
+aAiTA Lab, Faculty of Information Technology, FPT University, D1 Street,
+Saigon Hi-tech Park, Tang Nhon Phu Ward, Ho Chi Minh City, 71320, Vietnam
+bDepartment of Artificial Intelligence, Kyung Hee University, Yongin, Republic of Korea
+cMcGill University, affiliated with Mila, 845 Sherbrooke Street West, Montreal,
+QC H3A 0G4, Quebec, Canada
+dDepartment of Computer Science and Engineering,
+Kyung Hee University, Yongin, 446-701, Republic of Korea
+Abstract
+Quantum Machine Learning (QML) offers notable computational advantages;
+however, the limited qubit count and system noise inherent to the Noisy
+Intermediate-Scale Quantum (NISQ) era pose significant obstacles to pro-
+cessing real-world images and large, specialized datasets. To address these
+challenges, we introduce FireQuan, a hybrid quantum-classical architecture
+for multi-domain image classification. The framework centers on two con-
+tributions: (1) the Fire512 Head, a compact convolutional feature extractor
+that reduces the number of parameters by up to 98.90% and FLOPs by over
+98.00% compared to ResNet50, while preserving network depth for learning
+complex features; and (2) a patch-based encoding strategy that combines am-
+plitude and angle encoding principles with data re-uploading to load classical
+features into qubits using only single-qubit rotation gates, thereby eliminat-
+ing Controlled-NOT (CNOT) gates during the encoding phase. This encod-
+ing reduces physical circuit depth by over 99.60% and the total gate count by
+over 97.00% relative to Flexible Representation of Quantum Images (FRQI)
+and Novel Enhanced Quantum Representation (NEQR) for equivalent-sized
+feature vectors. Empirical evaluation across 13 datasets spanning 5 domains
+∗Corresponding author: Duc Ngoc Minh Dang (ducdnm2@fe.edu.vn)
+Preprint submitted to Neural Networks
+February 26, 2026
+--- Page 3 ---
+demonstrates that FireQuan performs competitively, achieving 95.74% on
+EuroSAT and 86.70% on PatchCamelyon (PCAM), while outperforming sev-
+eral Quantum Support Vector Machine (QSVM), Quantum Convolutional
+Neural Network (QCNN), and contemporary hybrid methods.
+FireQuan
+maintains a generalization gap below 10.00% even on datasets with high
+noise and class imbalance, highlighting its practical value for current quan-
+tum systems.
+Keywords:
+Quantum Machine Learning, Hybrid Quantum-Classical Model,
+Multi-Domain Image Classification, Patch Embedding, Lightweight
+Architecture
+1. Introduction
+Image classification is increasingly important across industries such as
+medicine, transportation, and agriculture, where it reduces manual labor and
+improves accuracy. Deep learning models such as ResNet (He et al., 2016) and
+VGGNet (Simonyan and Zisserman, 2015) achieve strong results but require
+large datasets and extensive training, incurring high computational costs that
+limit their use in resource-constrained settings. As application domains incor-
+porating heterogeneous data continue to grow, implementing multi-domain
+classification on edge devices becomes increasingly difficult (Manukian et al.,
+2019; Wang et al., 2020) due to model size, computational cost, and poor
+convergence in data-scarce environments.
+Quantum machine learning (QML) has emerged as a promising approach
+to address these limitations (Bressan, 1978; Morandi, 2011; Alda, 1980).
+QML integrates classical theories with high-dimensional Hilbert spaces, en-
+abling the modeling of complex systems through superposition and quantum
+entanglement. However, in the Noisy Intermediate-Scale Quantum (NISQ)
+era (Preskill, 2018), limited qubit availability, shallow circuit depth, and
+hardware noise constrain the implementation of fully quantum approaches.
+Consequently, hybrid quantum-classical models have become the preferred
+solution, where classical neural networks perform feature extraction while
+parameterized quantum circuits (PQCs) provide enhanced nonlinear repre-
+sentation with relatively few parameters (Benedetti et al., 2019; Xie et al.,
+2025; Park et al., 2025; Chen et al., 2025; He et al., 2024; Li et al., 2023;
+Baek et al., 2023; Liang et al., 2021; Ganjefar et al., 2015; da Silva et al.,
+2016; Zhang et al., 2022; Marcian`o et al., 2022).
+2
+--- Page 4 ---
+Despite these advances, most QML research relies on small-scale datasets
+(Senokosov et al., 2024; Long et al., 2025) such as MNIST (Deng, 2012),
+FashionMNIST (Xiao et al., 2017), or CIFAR10 (Giuste and Vizcarra, 2020),
+which do not capture the complexity of real-world multi-domain classifica-
+tion, including data noise, variable shapes, and distortions. Many existing
+hybrid architectures exhibit limited generalization on heterogeneous, noisy
+data (Wu et al., 2025). Overfitting occurs when classical backbones have
+too many parameters or when data encoding fails to preserve local fea-
+tures (Benedetti et al., 2019; Xie et al., 2025). Minimizing model parameters
+while achieving adequate accuracy, especially in medical or agricultural con-
+texts, remains a challenge (Wu et al., 2025; Biamonte et al., 2017; Schuld
+and Killoran, 2022).
+To address these challenges, our contributions are as follows:
+• We introduce FireQuan, a lightweight hybrid quantum-classical archi-
+tecture for multi-domain image classification that uses 85 times fewer
+parameters than ResNet50 (He et al., 2016).
+• We design Fire512 Head, a compact convolutional backbone based on
+SqueezeNet (Iandola et al., 2016), which preserves network depth while
+reducing the number of parameters by up to 98.90% and FLOPs by
+98.00% compared to ResNet50.
+• We propose a patch-based encoding strategy that integrates amplitude
+and angle encoding principles with data re-uploading to encode features
+using only single-qubit gates, reducing physical circuit depth by over
+99.60% and total gate count by over 97.00% compared with FRQI (Pa-
+rigi et al., 2025) and NEQR (Zhang et al., 2013) for equivalent-sized
+inputs.
+The paper is structured as follows: Section 2 reviews related work. Sec-
+tion 3 presents the methodology. Section 4 describes the experimental setup.
+Section 5 reports results. Section 6 presents ablation studies and further
+analysis. Section 7 concludes the paper.
+2. Related work
+QML development faces fundamental challenges in the NISQ era, con-
+strained by qubit count, circuit depth, gate precision, and computational
+3
+--- Page 5 ---
+cost. A core tension exists: increasing the efficiency of data encoding into
+the Hilbert space often requires higher circuit complexity, whereas reducing
+complexity may degrade encoding quality. This section reviews key research
+directions in data encoding methods and hybrid quantum-classical architec-
+tures, identifying gaps that motivated FireQuan.
+2.1. Quantum encoding methods
+Encoding classical data into quantum states is a critical step in QML,
+directly influencing performance and hardware requirements (Huang et al.,
+2021; Zheng et al., 2025). Existing methods can be grouped into four cate-
+gories based on their mapping principles and hardware costs (Pande, 2024;
+Khan et al., 2024; Sharma and N, 2024).
+2.1.1. Direct mapping encodings
+This group includes Basis Encoding
+(Benioff, 1980), Unary Encoding
+(Romero et al., 2017), Angle Encoding
+(Mitarai et al., 2018), and Phase
+Encoding
+(Coppersmith, 2002). Each data feature is mapped to a basis
+state or single-qubit gate configuration. These methods have simple con-
+struction and low circuit depth since no two-qubit gates are used, making
+them noise-resistant. However, qubit requirements scale linearly with input
+dimensionality, often exceeding the capacity of current quantum computers
+for high-dimensional data.
+They are therefore most suitable for small or
+low-dimensional datasets.
+2.1.2. Global compression encodings
+To address qubit limitations, Amplitude Encoding compresses N features
+into log2 N qubits by encoding data as quantum-state probability amplitudes.
+While theoretically optimal for qubit efficiency, this approach requires deep
+circuits with many two-qubit gates for state preparation, which is problematic
+for NISQ hardware. Furthermore, the near-uniform distribution of encoded
+data in the Hilbert space reduces measurement efficiency and contributes to
+barren plateaus during training (Wang et al., 2025).
+2.1.3. Image-specific quantum encodings
+Specialized methods such as FRQI (Parigi et al., 2025) and NEQR (Zhang
+et al., 2013; Haque et al., 2023) preserve both pixel values and spatial struc-
+ture by encoding images as quantum states. However, these techniques re-
+quire substantial numbers of multi-qubit control gates, particularly CNOT
+4
