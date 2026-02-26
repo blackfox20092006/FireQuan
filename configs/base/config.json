@@ -1,0 +1,107 @@
+{
+    "hyperparameters": {
+        "N_QUBITS": 10,
+        "K_LAYERS": 4,
+        "BATCH_SIZE": 64,
+        "LEARNING_RATE": 0.0002,
+        "EVAL_EVERY_N_EPOCHS": 10,
+        "WARMUP_EPOCHS": 2,
+        "MIN_LEARNING_RATE": 1e-06,
+        "SEED": 42,
+        "IMG_SIZE": 224
+    },
+    "paths": {
+        "BASE_DIR": "./data",
+        "BASE_DIR2": "./data2",
+        "BASE_DIR3": "./data3",
+        "OUTPUT_DIR": "./output"
+    },
+    "runs": [
+        {
+            "name": "belgiumts",
+            "n_classes": null,
+            "n_epochs": 200,
+            "is_grayscale": false
+        },
+        {
+            "name": "deepweeds",
+            "n_classes": null,
+            "n_epochs": 200,
+            "is_grayscale": false
+        },
+        {
+            "name": "emnist",
+            "n_classes": null,
+            "n_epochs": 200,
+            "is_grayscale": true
+        },
+        {
+            "name": "eurosat",
+            "n_classes": null,
+            "n_epochs": 200,
+            "is_grayscale": false
+        },
+        {
+            "name": "fruit360",
+            "n_classes": null,
+            "n_epochs": 200,
+            "is_grayscale": false
+        },
+        {
+            "name": "gtrsb",
+            "n_classes": null,
+            "n_epochs": 200,
+            "is_grayscale": false
+        },
+        {
+            "name": "ham10000",
+            "n_classes": null,
+            "n_epochs": 200,
+            "is_grayscale": false
+        },
+        {
+            "name": "isic2019",
+            "n_classes": null,
+            "n_epochs": 200,
+            "is_grayscale": false
+        },
+        {
+            "name": "pcam",
+            "n_classes": null,
+            "n_epochs": 200,
+            "is_grayscale": false
+        },
+        {
+            "name": "plantvillage",
+            "n_classes": null,
+            "n_epochs": 200,
+            "is_grayscale": false
+        },
+        {
+            "name": "resisc45",
+            "n_classes": null,
+            "n_epochs": 200,
+            "is_grayscale": false
+        },
+        {
+            "name": "svhn",
+            "n_classes": null,
+            "n_epochs": 200,
+            "is_grayscale": false
+        },
+        {
+            "name": "ucmerced",
+            "n_classes": null,
+            "n_epochs": 200,
+            "is_grayscale": false
+        }
+    ],
+    "test_runs": [
+        {
+            "name": "EMNIST_ByClass",
+            "n_classes": null,
+            "n_epochs": 200,
+            "is_grayscale": true
+        }
+    ]
+}

@@ -7,29 +7,30 @@ import numpy as np
 import setproctitle
 import seaborn as sns
 import logging
+import json
+import gc
+import traceback
 
 setproctitle.setproctitle('FireQuan')
 
 from src.engines.train import train_model
 
-try:
-    import json, glob
-    import yaml
-except:
-    yaml = None
+              
+config_path = r'd:\FireQuan\configs\base\config.json'
+with open(config_path, 'r') as f:
+    config_data = json.load(f)
 
-def first_exist(*paths):
-    for p in paths:
-        if p and os.path.exists(p):
-            return p
-    return None
+hyper_cfg = config_data['hyperparameters']
+paths_cfg = config_data['paths']
 
-base_dir = './data'
-base_dir2 = './data2'
-base_dir3 = './data3'
-OUTPUT_DIR = "./output"
+                          
+base_dir = paths_cfg['BASE_DIR']
+base_dir2 = paths_cfg['BASE_DIR2']
+base_dir3 = paths_cfg['BASE_DIR3']
+OUTPUT_DIR = paths_cfg['OUTPUT_DIR']
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
+            
 try:
     jax.config.update('jax_platform_name', 'gpu')
     jax.config.update("jax_enable_x64", False)
@@ -39,52 +40,34 @@ except Exception as e:
 
 sns.set()
 
-seed = 42
+seed = hyper_cfg['SEED']
 rng = np.random.default_rng(seed=seed)
 torch.manual_seed(seed)
 random.seed(seed)
 key = jax.random.PRNGKey(seed)
 
+def infer_n_classes(cfg):
+    def safe_count(path):
+        if not os.path.isdir(path):
+            print(f"[WARN] Path not found: {path}")
+            return 0
+        train_dir = os.path.join(path, "train")
+        if os.path.isdir(train_dir):
+            return len([d for d in os.listdir(train_dir) if os.path.isdir(os.path.join(train_dir, d))])
+        return len([d for d in os.listdir(path) if os.path.isdir(os.path.join(path, d))])
+
+    n = safe_count(os.path.join(base_dir, cfg['name'].lower()))
+    print(f"[INFO] Inferred {n} classes for dataset {cfg['name']}")
+    return n
 
 def main():
-    import gc
-
-    def infer_n_classes(cfg):
-        base_dir = './data'
-
-        def safe_count(path):
-            if not os.path.isdir(path):
-                print(f"[WARN] Path not found: {path}")
-                return 0
-            train_dir = os.path.join(path, "train")
-            if os.path.isdir(train_dir):
-                return len([d for d in os.listdir(train_dir) if os.path.isdir(os.path.join(train_dir, d))])
-            return len([d for d in os.listdir(path) if os.path.isdir(os.path.join(path, d))])
-
-        n = safe_count(os.path.join(base_dir, cfg['name'].lower()))
-        print(f"[INFO] Inferred {n} classes for dataset {cfg['name']}")
-        return n
-
-    dataset_configs = [
-        {'name': 'belgiumts', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-        {'name': 'deepweeds', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-        {'name': 'emnist', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': True},
-        {'name': 'eurosat', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-        {'name': 'fruit360', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-        {'name': 'gtrsb', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-        {'name': 'ham10000', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-        {'name': 'isic2019', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-        {'name': 'pcam', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-        {'name': 'plantvillage', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-        {'name': 'resisc45', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-        {'name': 'svhn', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-        {'name': 'ucmerced', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': False},
-    ]
+    global key
+    dataset_configs = config_data.get('runs', [])
 
     main_key = key
     for cfg in dataset_configs[::-1]:
         try:
-            if cfg['n_classes'] is None:
+            if cfg.get('n_classes') is None:
                 cfg['n_classes'] = infer_n_classes(cfg)
 
             if cfg['n_classes'] is None or cfg['n_classes'] == 0:
@@ -106,7 +89,6 @@ def main():
             print("\n" + "!"*80)
             print(f"FAILED TRAINING PIPELINE FOR: {cfg['name']}")
             print(f"ERROR: {e}")
-            import traceback
             traceback.print_exc()
             print("!"*80 + "\n")
 
@@ -115,57 +97,20 @@ def main():
                 torch.cuda.empty_cache()
             gc.collect()
 
-def test_datasets(dataset_configs = [
-                                                                                            
-                                                                                       
-                                                                                       
-                                                                                         
-                                                                                          
-                                                                                          
-                                                                                            
-                                                                                          
-                                                                                                  
-                                                                                               
-        {'name': 'EMNIST_ByClass', 'n_classes': None, 'n_epochs': 200, 'is_grayscale': True},
-                                                                                               
-                                                                                                
-                                                                                       
-                                                                                       
-                                                                                     
-                                                                                      
-                                                                                        
-                                                                                        
-                                                                                        
-                                                                                         
-    ]):
-    
+def test_datasets():
     from src.dataloaders.dataloaders import load_data
-    
-    def infer_n_classes(cfg):
-        base_dir = './data'
+    test_configs = config_data.get('test_runs', [])
 
-        def safe_count(path):
-            if not os.path.isdir(path):
-                print(f"[WARN] Path not found: {path}")
-                return 0
-            train_dir = os.path.join(path, "train")
-            if os.path.isdir(train_dir):
-                return len([d for d in os.listdir(train_dir) if os.path.isdir(os.path.join(train_dir, d))])
-            return len([d for d in os.listdir(path) if os.path.isdir(os.path.join(path, d))])
-
-        n = safe_count(os.path.join(base_dir, cfg['name'].lower()))
-        print(f"[INFO] Inferred {n} classes for dataset {cfg['name']}")
-        return n
-    for cfg in dataset_configs:
+    for cfg in test_configs:
         print("\n" + "="*80)
         print(f"TESTING DATASET: {cfg['name']}")
         print("="*80 + "\n")
 
         try:
-            if cfg['n_classes'] is None:
+            if cfg.get('n_classes') is None:
                 cfg['n_classes'] = infer_n_classes(cfg)
 
-            train_loader, test_loader = load_data(64, cfg)
+            train_loader, test_loader = load_data(hyper_cfg['BATCH_SIZE'], cfg)
 
             if train_loader is None or test_loader is None:
                 raise RuntimeError(f"Failed to load dataset {cfg['name']}")
@@ -186,12 +131,9 @@ def test_datasets(dataset_configs = [
             print("\n" + "!"*80)
             print(f"ERROR LOADING DATASET: {cfg['name']}")
             print(f"ERROR: {e}")
-            import traceback
             traceback.print_exc()
             print("!"*80 + "\n")
             break
 
-
 if __name__ == "__main__":
     main()
-                     

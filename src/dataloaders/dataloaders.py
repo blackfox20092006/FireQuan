@@ -8,11 +8,16 @@ from PIL import Image
 from sklearn.model_selection import train_test_split
 from .transforms import get_transforms
 
+import json
+config_path = r'd:\FireQuan\configs\base\config.json'
+with open(config_path, 'r') as f:
+    config_paths = json.load(f)['paths']
+
 IMG_OK = ('.jpg','.jpeg','.png','.bmp','.tif','.tiff','.webp')
-base_dir = './data'
-base_dir2 = './data2'
-base_dir3 = './data3'
-IMG_SIZE = 224
+base_dir = config_paths['BASE_DIR']
+base_dir2 = config_paths.get('BASE_DIR2', './data2')
+base_dir3 = config_paths.get('BASE_DIR3', './data3')
+IMG_SIZE = config_paths.get('IMG_SIZE', 224)
 
 def first_exist(*paths):
     for p in paths:

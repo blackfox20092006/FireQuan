@@ -6,8 +6,14 @@ import optax
 import numpy as np
 from .observables import ALL_OBSERVABLES, N_QUANTUM_FEATURES, N_QUBITS
 from .fire512head import Fire512, cnn_forward
+import json
 
-K_LAYERS = 4
+config_path = r'd:\FireQuan\configs\base\config.json'
+with open(config_path, 'r') as f:
+    config_hyper = json.load(f)['hyperparameters']
+
+K_LAYERS = config_hyper['K_LAYERS']
+IMG_SIZE = config_hyper['IMG_SIZE']
 CLASSICAL_OUTPUT_DIM = 512
 
 def conv10(wires, weights):
@@ -89,7 +95,7 @@ def init_params(key, n_classes):
     cnn_key, q_key, dw_key, db_key = jax.random.split(key, 4)
     
     cnn_model = Fire512()
-    dummy_input = jnp.ones((1, 224, 224, 3))
+    dummy_input = jnp.ones((1, IMG_SIZE, IMG_SIZE, 3))
     cnn_params = cnn_model.init(cnn_key, dummy_input)['params']
     
     num_q_weights = count_total_params(N_QUBITS, K_LAYERS)

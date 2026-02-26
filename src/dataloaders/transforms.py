@@ -1,4 +1,11 @@
 from torchvision import transforms
+import json
+
+config_path = r'd:\FireQuan\configs\base\config.json'
+with open(config_path, 'r') as f:
+    config_hyper = json.load(f)['hyperparameters']
+
+IMG_SIZE = config_hyper['IMG_SIZE']
 
 class check3c(object):
     def __call__(self, img):
@@ -9,8 +16,8 @@ class check3c(object):
 def get_transforms(is_grayscale=False):
     train_transform_list = [
         check3c(),
-        transforms.Resize((224, 224)),
-        transforms.RandomResizedCrop(224, scale=(0.8, 1.0)),
+        transforms.Resize((IMG_SIZE, IMG_SIZE)),
+        transforms.RandomResizedCrop(IMG_SIZE, scale=(0.8, 1.0)),
         transforms.RandomHorizontalFlip(p=0.5),
         transforms.RandomRotation(15),
         transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.1),
@@ -20,7 +27,7 @@ def get_transforms(is_grayscale=False):
     ]
     test_transform_list = [
         check3c(),
-        transforms.Resize((224, 224))
+        transforms.Resize((IMG_SIZE, IMG_SIZE))
     ]
 
     if is_grayscale:

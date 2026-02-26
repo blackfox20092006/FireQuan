@@ -1,6 +1,11 @@
 import pennylane as qml
+import json
 
-N_QUBITS = 10
+config_path = r'd:\FireQuan\configs\base\config.json'
+with open(config_path, 'r') as f:
+    config_hyper = json.load(f)['hyperparameters']
+
+N_QUBITS = config_hyper['N_QUBITS']
 
 def obs_gen():
     pauli_operators = [qml.PauliX, qml.PauliY, qml.PauliZ]

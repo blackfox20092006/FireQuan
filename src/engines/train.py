@@ -12,11 +12,18 @@ from src.engines.eval import evaluate_model
 from src.models.observables import N_QUBITS
 from src.models.qnn import K_LAYERS
 
-BATCH_SIZE = 64
-LEARNING_RATE = 2e-4
-EVAL_EVERY_N_EPOCHS = 10
-WARMUP_EPOCHS = 2
-MIN_LEARNING_RATE = 1e-6
+import json
+config_path = r'd:\FireQuan\configs\base\config.json'
+with open(config_path, 'r') as f:
+    config_hyper = json.load(f)['hyperparameters']
+
+BATCH_SIZE = config_hyper['BATCH_SIZE']
+LEARNING_RATE = config_hyper['LEARNING_RATE']
+EVAL_EVERY_N_EPOCHS = config_hyper['EVAL_EVERY_N_EPOCHS']
+WARMUP_EPOCHS = config_hyper['WARMUP_EPOCHS']
+MIN_LEARNING_RATE = config_hyper['MIN_LEARNING_RATE']
+IMG_SIZE = config_hyper.get('IMG_SIZE', 224)
+
 
 def train_model(key, config):
     params_key, _ = jax.random.split(key)
@@ -64,7 +71,7 @@ def train_model(key, config):
 
     history = {'train_cost': [], 'train_acc': [], 'test_cost': [], 'test_acc': [], 'test_recall': [], 'test_f1': []}
     
-    results_filename = f'./output/results_{dataset_name.lower().replace("-", "_")}_{N_QUBITS}q_{K_LAYERS}l_224x224.txt'
+    results_filename = f'./output/results_{dataset_name.lower().replace("-", "_")}_{N_QUBITS}q_{K_LAYERS}l_{IMG_SIZE}x{IMG_SIZE}.txt'
     if os.path.exists(results_filename):
         os.remove(results_filename)
 
