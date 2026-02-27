@@ -2,7 +2,7 @@
 
 <i>
   Official code repository for the manuscript 
-  <b>"FireQuan: A lightweight hybrid quantum-classical architecture with Patch Embedding for multi-domain image classification"</b>, 
+  <b>"FireQuan: A lightweight hybrid quantum-classical architecture with Patch Embedding for multi-domain image classification"</b>, preprint
   submitted to 
   <a href="https://www.journals.elsevier.com/neural-networks">Neural Networks</a>.
 </i>
@@ -35,6 +35,7 @@
 [**Abstract**](#Abstract) •
 [**Core Contributions**](#core-contributions) •
 [**Repository Structure**](#repository-structure--components) •
+[**Datasets**](#datasets) •
 [**Install**](#install) •
 [**Usage**](#usage) •
 [**Citation**](#citation) •
@@ -73,6 +74,26 @@ Our codebase is highly modular and organized to support configurable multi-domai
 - `patch_embedding/`: 
   - `infer_fire512.py`: A benchmarking utility calculating parameters, FLOPs, and runtime performance of `Fire512` versus traditional CNN backbones.
   - `test_embedding.py`: A `qiskit`-based script to transpile and measure the physical circuit metrics (Depth, CNOT count, Memory) of our Patch Embedding against other prevalent encoding schemas (FRQI, NEQR, Phase, IQP, etc.).
+
+---
+
+## Datasets
+
+The repository conducts experiments on 13 different multi-domain image datasets. Please follow the official links below to download or inquire about licensing information:
+
+- **GTSRB**: [https://benchmark.ini.rub.de](https://benchmark.ini.rub.de)
+- **BelgiumTS**: [https://btsd.ethz.ch/shareddata/](https://btsd.ethz.ch/shareddata/)
+- **Fruit360**: [https://github.com/fruits-360](https://github.com/fruits-360)
+- **PlantVillage**: [https://data.mendeley.com/datasets/tywbtsjrjv/1](https://data.mendeley.com/datasets/tywbtsjrjv/1)
+- **DeepWeeds**: [https://github.com/AlexOlsen/DeepWeeds](https://github.com/AlexOlsen/DeepWeeds)
+- **PatchCamelyon (PCAM)**: [https://patchcamelyon.grand-challenge.org](https://patchcamelyon.grand-challenge.org)
+- **ISIC2019**: [https://challenge.isic-archive.com/data/](https://challenge.isic-archive.com/data/)
+- **HAM10000**: [https://pmc.ncbi.nlm.nih.gov/articles/PMC6091241/#sec16](https://pmc.ncbi.nlm.nih.gov/articles/PMC6091241/#sec16)
+- **EMNIST**: [https://docs.pytorch.org/vision/main/generated/torchvision.datasets.EMNIST.html](https://docs.pytorch.org/vision/main/generated/torchvision.datasets.EMNIST.html)
+- **SVHN**: [http://ufldl.stanford.edu/housenumbers/](http://ufldl.stanford.edu/housenumbers/)
+- **EuroSAT**: [https://docs.pytorch.org/vision/main/generated/torchvision.datasets.EuroSAT.html](https://docs.pytorch.org/vision/main/generated/torchvision.datasets.EuroSAT.html)
+- **RESISC45**: [https://1drv.ms/u/s!AmgKYzARBl5ca3HNaHIlzp_IXjs](https://1drv.ms/u/s!AmgKYzARBl5ca3HNaHIlzp_IXjs)
+- **UCMerced**: [https://faculty.ucmerced.edu/snewsam/](https://faculty.ucmerced.edu/snewsam/)
 
 ---
 
