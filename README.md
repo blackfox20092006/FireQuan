@@ -10,9 +10,9 @@
 > Please press ⭐ button and/or cite papers if you feel helpful.
 
 <p align="center">
-<img src="https://img.shields.io/github/stars/ducdnm2/FireQuan">
-<img src="https://img.shields.io/github/forks/ducdnm2/FireQuan">
-<img src="https://img.shields.io/github/watchers/ducdnm2/FireQuan">
+<img src="https://img.shields.io/github/stars/blackfox20092006/FireQuan">
+<img src="https://img.shields.io/github/forks/blackfox20092006/FireQuan">
+<img src="https://img.shields.io/github/watchers/blackfox20092006/FireQuan">
 </p>
 
 <div align="center">
@@ -80,7 +80,7 @@ Our codebase is highly modular and organized to support configurable multi-domai
 
 ### Clone this repository
 ```bash
-git clone https://github.com/ducdnm2/FireQuan.git
+git clone https://github.com/blackfox20092006/FireQuan.git
 cd FireQuan
 ```
 
@@ -167,6 +167,6 @@ If you use this code or concept (Fire512/Patch-based embed) in your research, pl
 ## Contact
 For any information, please contact the corresponding author:
 
-**Duc Ngoc Minh Dang** at AiTA Lab, FPT University, Vietnam<br>
-**Email:** [ducdnm2@fe.edu.vn](mailto:ducdnm2@fe.edu.vn) <br>
-**GitHub:** <link>https://github.com/ducdnm2/</link>
+**Quang Nhan Hoang** at FPT University, Vietnam<br>
+**Email:** [xxhoangquangnhanxx@gmail.com](mailto:xxhoangquangnhanxx@gmail.com) or [nhanhqse204283@fpt.edu.vn](mailto:nhanhqse204283@fpt.edu.vn) <br>
+**GitHub:** <link>https://github.com/blackfox20092006/</link>
