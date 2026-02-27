@@ -5,13 +5,11 @@ from torchvision import transforms
 from torch.utils.data import DataLoader, Subset
 from sklearn.model_selection import train_test_split
 from PIL import Image
-
 class check3c(object):
     def __call__(self, img):
         if img.mode != 'RGB':
             img = img.convert('RGB')
         return img
-
 def get_transforms(is_grayscale=False, img_size=224):
     train_transform_list = [
         check3c(),
@@ -37,7 +35,6 @@ def get_transforms(is_grayscale=False, img_size=224):
     train_transform = transforms.Compose(train_transform_list + final_transforms)
     test_transform = transforms.Compose(test_transform_list + final_transforms)
     return train_transform, test_transform
-
 def load_ablation_data(batch_size, config):
     name = config['name']
     ablation_mode = config.get('ablation_mode', 'full')

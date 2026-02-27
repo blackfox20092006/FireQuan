@@ -8,7 +8,6 @@ except ImportError: psutil = None
 from torchvision import models
 try: from thop import profile
 except ImportError: profile = None
-
 class Fire(nn.Module):
     def __init__(self, in_planes, squeeze_planes, expand1x1_planes, expand3x3_planes):
         super(Fire, self).__init__()
@@ -21,7 +20,6 @@ class Fire(nn.Module):
     def forward(self, x):
         x = self.squeeze_activation(self.squeeze(x))
         return torch.cat([self.expand1x1_activation(self.expand1x1(x)), self.expand3x3_activation(self.expand3x3(x))], 1)
-
 class Fire512(nn.Module):
     def __init__(self):
         super(Fire512, self).__init__()
@@ -43,7 +41,6 @@ class Fire512(nn.Module):
         )
     def forward(self, x):
         return self.features(x).view(x.size(0), -1)
-
 def get_backbone(name):
     if name == "Fire512": return Fire512()
     elif name == "SqueezeNet": m = models.squeezenet1_1(weights=None); m.classifier = nn.Identity(); return m
@@ -52,7 +49,6 @@ def get_backbone(name):
     elif name == "MobileNetV3": m = models.mobilenet_v3_large(weights=None); m.classifier = nn.Identity(); return m
     elif name == "ResNet18": m = models.resnet18(weights=None); m.fc = nn.Identity(); return m
     elif name == "ResNet50": m = models.resnet50(weights=None); m.fc = nn.Identity(); return m
-
 def benchmark():
     device_list = ["cpu"]
     if torch.cuda.is_available(): device_list.append("cuda")
@@ -91,6 +87,5 @@ def benchmark():
             print(f"{name:<16} | {p_s:>8} | {f_s:>8} | {device:<6} | {i_s:>9} | {fps:>7.1f} | {ram_delta:>9.2f} | {vram:>9.2f}")
         print(f" > Quantized: FP32: {fp32_size:.2f}MB | INT16: {int16_size:.2f}MB | INT8: {int8_size:.2f}MB | Est. Energy: {energy:.4f}J")
         print("-" * len(h))
-
 if __name__ == "__main__":
     benchmark()

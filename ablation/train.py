@@ -7,20 +7,15 @@ import torch.utils.data
 from tqdm.auto import tqdm
 from sklearn.metrics import f1_score, recall_score
 import json
-
 from .model import hybrid_model_forward, cost_func, init_params
 from .dataset import load_ablation_data
-
 import os
-
 config_path = 'configs/ablation/config.json'
 with open(config_path, 'r') as f:
     config_hyper = json.load(f)['hyperparameters']
-
 BATCH_SIZE = config_hyper['BATCH_SIZE']
 LEARNING_RATE = config_hyper['LEARNING_RATE']
 EVAL_EVERY_N_EPOCHS = config_hyper['EVAL_EVERY_N_EPOCHS']
-
 def evaluate_model(params, loader, ablation_mode):
     total_loss = 0.0
     all_labels, all_predictions = [], []
@@ -49,7 +44,6 @@ def evaluate_model(params, loader, ablation_mode):
     recall = recall_score(all_labels_np, all_predictions_np, average='macro', zero_division=0)
     f1 = f1_score(all_labels_np, all_predictions_np, average='macro', zero_division=0)
     return avg_loss, acc, recall, f1
-
 def train_model(key, config):
     dataset_name = config['name']
     ablation_mode = config.get('ablation_mode', 'full')
@@ -72,7 +66,6 @@ def train_model(key, config):
         updates, opt_state = optimizer.update(grads, opt_state, params)
         new_params = optax.apply_updates(params, updates)
         return new_params, opt_state, loss, logits
-    
     if not os.path.exists('./output'):
         os.makedirs('./output')
     results_filename = f'./output/ablation_{dataset_name}_{ablation_mode}.txt'

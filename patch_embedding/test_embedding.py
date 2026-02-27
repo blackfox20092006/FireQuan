@@ -5,24 +5,20 @@ import tracemalloc
 from qiskit import QuantumCircuit, transpile
 from qiskit.circuit import ParameterVector
 from qiskit.quantum_info import Statevector
-
 DATA_DIM = 512
 BASIS_GATES = ['cx', 'id', 'rz', 'sx', 'x']
-
 def enc_basis(data):
     bin_str = "".join(['1' if x > 0.5 else '0' for x in data])
     qc = QuantumCircuit(len(bin_str))
     for i, bit in enumerate(bin_str):
         if bit == '1': qc.x(i)
     return qc
-
 def enc_unary(data):
     n = len(data)
     qc = QuantumCircuit(n)
     idx = np.argmax(data)
     if idx < n: qc.x(idx)
     return qc
-
 def enc_angle(data):
     n = len(data)
     params = ParameterVector('theta', n)
@@ -30,7 +26,6 @@ def enc_angle(data):
     for i in range(n):
         qc.ry(params[i], i)
     return qc
-
 def enc_phase(data):
     n = len(data)
     params = ParameterVector('theta', n)
@@ -39,7 +34,6 @@ def enc_phase(data):
         qc.h(i)
         qc.rz(params[i], i)
     return qc
-
 def enc_amplitude(data):
     n = math.ceil(math.log2(len(data)))
     target_dim = 2 ** n
@@ -49,7 +43,6 @@ def enc_amplitude(data):
     qc = QuantumCircuit(n)
     qc.initialize(norm_data, range(n))
     return qc
-
 def enc_dense(data):
     n = math.ceil(len(data)/2)
     params = ParameterVector('theta', len(data))
@@ -58,7 +51,6 @@ def enc_dense(data):
         if 2*i < len(data): qc.ry(params[2*i], i)
         if 2*i+1 < len(data): qc.rz(params[2*i+1], i)
     return qc
-
 def enc_reuploading(data):
     params = ParameterVector('theta', len(data))
     qc = QuantumCircuit(1)
@@ -66,7 +58,6 @@ def enc_reuploading(data):
         qc.ry(param, 0)
         qc.rz(param, 0)
     return qc
-
 def enc_iqp(data):
     n = len(data)
     params = ParameterVector('theta', n)
@@ -79,7 +70,6 @@ def enc_iqp(data):
         qc.rz(params[i] * params[i+1], i+1)
         qc.cx(i, i+1)
     return qc
-
 def enc_frqi(data):
     N = len(data)
     n = int(math.ceil(math.log2(N)))
@@ -94,7 +84,6 @@ def enc_frqi(data):
         for idx, bit in enumerate(pattern):
             if bit == '0': qc.x(idx)
     return qc
-
 def enc_neqr(data):
     N = len(data)
     n = int(math.ceil(math.log2(N)))
@@ -113,7 +102,6 @@ def enc_neqr(data):
         for idx, bit in enumerate(pattern):
             if bit == '0': qc.x(idx)
     return qc
-
 def enc_patches_embedding_explicit(data):
     n_wires = 10
     CLASSICAL_OUTPUT_DIM = len(data)
@@ -137,7 +125,6 @@ def enc_patches_embedding_explicit(data):
                 qc.rz(val, i)
             feature_idx += 1
     return qc
-
 METHODS_MAP = [
     ("Basis encoding", enc_basis),
     ("Amplitude encoding", enc_amplitude),
@@ -150,7 +137,6 @@ METHODS_MAP = [
     ("Data re-uploading", enc_reuploading),
     ("PatchesEmbedding", enc_patches_embedding_explicit)
 ]
-
 def get_circuit_metrics(qc, name):
     try:
         logical_depth = qc.depth()
@@ -194,7 +180,6 @@ def get_circuit_metrics(qc, name):
     except Exception as e:
         tracemalloc.stop()
         return {"name": name, "status": f"ERROR: {str(e)}"}
-
 if __name__ == "__main__":
     print(f"BENCHMARKING QUANTUM ENCODINGS | INPUT DIM: {DATA_DIM}")
     np.random.seed(42)

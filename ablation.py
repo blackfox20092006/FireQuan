@@ -6,20 +6,16 @@ import setproctitle
 import os
 import json
 from ablation import train_model
-
 os.environ["JAX_PLATFORMS"]="cuda"
 os.environ["JAX_ENABLE_X64"]="false"
 os.environ["JAX_LOG_COMPILES"]="false"
 os.environ["JAX_TRACEBACK_FILTERING"]="off"
 os.environ["TORCH_CUDA_ALLOC_CONF"]="max_split_size_mb:256,expandable_segments:True"
 setproctitle.setproctitle('FireQuanAblation')
-
 config_path = 'configs/ablation/config.json'
 with open(config_path, 'r') as f:
     config_data = json.load(f)
-
 configs = config_data['runs']
-
 key = jax.random.PRNGKey(42)
 for cfg in configs:
     try:
