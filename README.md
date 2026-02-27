@@ -156,12 +156,7 @@ python ablation.py
 ## Citation
 If you use this code or concept (Fire512/Patch-based embed) in your research, please consider citing our original manuscript:
 ```bibtex
-@article{hoang2026firequan,
-  title={FireQuan: A lightweight hybrid quantum-classical architecture with Patch Embedding for multi-domain image classification},
-  author={Hoang, Quang Nhan and Pham, Trung Thanh and Nguyen, Nhut Minh and Le, Linh and Hong, Choong Seon and Dang, Duc Ngoc Minh},
-  journal={Neural Networks},
-  year={2026}
-}
+Coming soon
 ```
 
 ## Contact
