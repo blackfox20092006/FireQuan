@@ -14,7 +14,7 @@ os.environ["JAX_TRACEBACK_FILTERING"]="off"
 os.environ["TORCH_CUDA_ALLOC_CONF"]="max_split_size_mb:256,expandable_segments:True"
 setproctitle.setproctitle('FireQuanAblation')
 
-config_path = r'd:\FireQuan\configs\ablation\config.json'
+config_path = 'configs/ablation/config.json'
 with open(config_path, 'r') as f:
     config_data = json.load(f)
 

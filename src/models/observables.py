@@ -1,7 +1,7 @@
 import pennylane as qml
 import json
 
-config_path = r'd:\FireQuan\configs\base\config.json'
+config_path = 'configs/base/config.json'
 with open(config_path, 'r') as f:
     config_hyper = json.load(f)['hyperparameters']
 

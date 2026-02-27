@@ -13,7 +13,7 @@ from .dataset import load_ablation_data
 
 import os
 
-config_path = r'd:\FireQuan\configs\ablation\config.json'
+config_path = 'configs/ablation/config.json'
 with open(config_path, 'r') as f:
     config_hyper = json.load(f)['hyperparameters']
 
