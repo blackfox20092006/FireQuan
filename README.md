@@ -2,8 +2,7 @@
 
 <i>
   Official code repository for the manuscript 
-  <b>"FireQuan: A lightweight hybrid quantum-classical architecture with Patch Embedding for multi-domain image classification"</b>, preprint
-  submitted to 
+  <b>"FireQuan: A lightweight hybrid quantum-classical architecture with Patch Embedding for multi-domain image classification"</b>, submitted to 
   <a href="https://www.journals.elsevier.com/neural-networks">Neural Networks</a>.
 </i>
 
@@ -81,19 +80,21 @@ Our codebase is highly modular and organized to support configurable multi-domai
 
 The repository conducts experiments on 13 different multi-domain image datasets. Please follow the official links below to download or inquire about licensing information:
 
-- **GTSRB**: [https://benchmark.ini.rub.de](https://benchmark.ini.rub.de)
-- **BelgiumTS**: [https://btsd.ethz.ch/shareddata/](https://btsd.ethz.ch/shareddata/)
-- **Fruit360**: [https://github.com/fruits-360](https://github.com/fruits-360)
-- **PlantVillage**: [https://data.mendeley.com/datasets/tywbtsjrjv/1](https://data.mendeley.com/datasets/tywbtsjrjv/1)
-- **DeepWeeds**: [https://github.com/AlexOlsen/DeepWeeds](https://github.com/AlexOlsen/DeepWeeds)
-- **PatchCamelyon (PCAM)**: [https://patchcamelyon.grand-challenge.org](https://patchcamelyon.grand-challenge.org)
-- **ISIC2019**: [https://challenge.isic-archive.com/data/](https://challenge.isic-archive.com/data/)
-- **HAM10000**: [https://pmc.ncbi.nlm.nih.gov/articles/PMC6091241/#sec16](https://pmc.ncbi.nlm.nih.gov/articles/PMC6091241/#sec16)
-- **EMNIST**: [https://docs.pytorch.org/vision/main/generated/torchvision.datasets.EMNIST.html](https://docs.pytorch.org/vision/main/generated/torchvision.datasets.EMNIST.html)
-- **SVHN**: [http://ufldl.stanford.edu/housenumbers/](http://ufldl.stanford.edu/housenumbers/)
-- **EuroSAT**: [https://docs.pytorch.org/vision/main/generated/torchvision.datasets.EuroSAT.html](https://docs.pytorch.org/vision/main/generated/torchvision.datasets.EuroSAT.html)
-- **RESISC45**: [https://1drv.ms/u/s!AmgKYzARBl5ca3HNaHIlzp_IXjs](https://1drv.ms/u/s!AmgKYzARBl5ca3HNaHIlzp_IXjs)
-- **UCMerced**: [https://faculty.ucmerced.edu/snewsam/](https://faculty.ucmerced.edu/snewsam/)
+| Domain | Dataset | Total Samples | Classes | Source Link |
+| :--- | :--- | :--- | :--- | :--- |
+| **Autonomous Driving – Traffic Sign Classification** | GTSRB | 50,000 | 43 | [benchmark.ini.rub.de](https://benchmark.ini.rub.de) |
+| | BelgiumTS | 9,000 | 62 | [btsd.ethz.ch](https://btsd.ethz.ch/shareddata/) |
+| **Agricultural and Plant Classification** | Fruit360 | 90,000 | 136 | [fruits-360 Github](https://github.com/fruits-360) |
+| | PlantVillage | 50,000 | 38 | [Mendeley Data](https://data.mendeley.com/datasets/tywbtsjrjv/1) |
+| | DeepWeeds | 17,000 | 9 | [DeepWeeds Github](https://github.com/AlexOlsen/DeepWeeds) |
+| **Medical and Biomedical Imaging** | PCAM | 327,680 | 2 | [patchcamelyon](https://patchcamelyon.grand-challenge.org) |
+| | ISIC2019 | 25,000 | 8 | [isic-archive](https://challenge.isic-archive.com/data/) |
+| | HAM10000 | 10,015 | 7 | [pmc.ncbi.nlm.nih.gov](https://pmc.ncbi.nlm.nih.gov/articles/PMC6091241/#sec16) |
+| **Digit and Character Recognition** | EMNIST (By Class) | 814,255 | 62 | [Torchvision Docs](https://docs.pytorch.org/vision/main/generated/torchvision.datasets.EMNIST.html) |
+| | SVHN | 600,000 | 10 | [stanford.edu](http://ufldl.stanford.edu/housenumbers/) |
+| **Earth Observation Image Classification** | EuroSAT | 27,000 | 10 | [Torchvision Docs](https://docs.pytorch.org/vision/main/generated/torchvision.datasets.EuroSAT.html) |
+| | RESISC45 | 31,500 | 45 | [OneDrive Link](https://1drv.ms/u/s!AmgKYzARBl5ca3HNaHIlzp_IXjs) |
+| | UC Merced | 2,100 | 21 | [ucmerced.edu](https://faculty.ucmerced.edu/snewsam/) |
 
 ---
 
