@@ -176,7 +176,7 @@ python ablation.py
 ---
 
 ## Citation
-If you use this code or concept (Fire512/Patch-based embed) in your research, please consider citing our original manuscript:
+If you use this code or concept (Fire512 Head/Patch Embedding) in your research, please consider citing our original manuscript:
 ```bibtex
 Coming soon
 ```
