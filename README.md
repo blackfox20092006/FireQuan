@@ -184,6 +184,6 @@ Coming soon
 ## Contact
 For any information, please contact the corresponding author:
 
-**Quang Nhan Hoang** at FPT University, Vietnam<br>
+**Quang Nhan Hoang** at AiTA Lab, Faculty of Information Technology, FPT University, Vietnam<br>
 **Email:** [xxhoangquangnhanxx@gmail.com](mailto:xxhoangquangnhanxx@gmail.com) or [nhanhqse204283@fpt.edu.vn](mailto:nhanhqse204283@fpt.edu.vn) <br>
 **GitHub:** <link>https://github.com/blackfox20092006/</link>
